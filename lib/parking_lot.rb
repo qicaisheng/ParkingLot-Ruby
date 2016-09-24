@@ -1,16 +1,20 @@
+require 'uuid'
+
 class ParkingLot
   def initialize(capacity)
     @capacity = capacity
-    @storage = []
+    @storage = {}
   end
 
   def park(car)
     return false unless canPark
-    @storage.push(car)
+    token = UUID.generate
+    @storage[token] = car
+    token
   end
 
-  def pick
-    @storage.pop
+  def pick(token)
+    @storage.delete(token)
   end
 
   def canPark
