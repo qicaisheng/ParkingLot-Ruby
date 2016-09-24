@@ -4,11 +4,8 @@ class ParkingBoy
   end
 
   def park(car)
-    @parking_lots.each do |parking_lot|
-      token = parking_lot.park(car)
-      return token if token
-    end
-    false
+    return false unless find_parking_lot
+    find_parking_lot.park(car)
   end
 
   def pick(token)
@@ -17,5 +14,10 @@ class ParkingBoy
       return car if car
     end
     nil
+  end
+
+  private
+  def find_parking_lot
+    @parking_lots.find { |parking_lot| parking_lot.canPark }
   end
 end

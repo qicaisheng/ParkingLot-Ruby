@@ -18,7 +18,7 @@ class ParkingLot
   end
 
   def canPark
-    @capacity > @storage.size
+    available_capacity > 0
   end
 
   def available_capacity
