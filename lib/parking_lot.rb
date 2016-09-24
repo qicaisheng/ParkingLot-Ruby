@@ -24,4 +24,9 @@ class ParkingLot
   def available_capacity
     @capacity - @storage.size
   end
+
+  def available_spaces_rate
+    return @capacity unless @capacity
+    available_capacity / @capacity
+  end
 end
