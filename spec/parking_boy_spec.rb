@@ -24,4 +24,20 @@ describe ParkingBoy do
       expect(picked_car).to eq @car
     end
   end
+
+  context 'given the parking boy manage two parking lot' do
+    it 'should be park the car to another parking lot when a parking lot is full' do
+      parking_lot1 = ParkingLot.new(1)
+      parking_lot2 = ParkingLot.new(1)
+      parking_boy = ParkingBoy.new(parking_lot1, parking_lot2)
+      car1 = Car.new
+      car2 = Car.new
+
+      parking_lot1.park(car1)
+
+      token = parking_boy.park(car2)
+      picked_car = parking_lot2.pick(token)
+      expect(picked_car).to eq car2
+    end
+  end
 end
