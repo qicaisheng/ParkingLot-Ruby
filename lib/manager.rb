@@ -10,4 +10,9 @@ class  Manager < ParkingBoy
     return false unless @parking_boys.include? parking_boy
     parking_boy.park(car)
   end
+
+  def pick_by(parking_boy, car)
+    return false unless @parking_boys.include? parking_boy
+    parking_boy.pick(car)
+  end
 end
