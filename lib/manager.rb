@@ -38,6 +38,20 @@ class  Manager < ParkingBoy
     end
   end
 
+  def report
+    report_self = "M #{all_available_space} #{all_space}\n"
+    report_parking_lots = @parking_lots.map{ |parking_lot| parking_lot.report("\t") }.join
+    report_self + report_parking_lots
+  end
+
+  def all_space
+    @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.capacity }
+  end
+
+  def all_available_space
+    @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.available_capacity }
+  end
+
   private
   def all_parking_boys
     Array(@parking_boys) + Array(@smart_parking_boys) + Array(@super_parking_boys)

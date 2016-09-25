@@ -1,6 +1,8 @@
 require 'uuid'
 
 class ParkingLot
+  attr_reader :capacity
+
   def initialize(capacity)
     @capacity = capacity
     @storage = {}
@@ -28,5 +30,9 @@ class ParkingLot
   def available_spaces_rate
     return @capacity unless @capacity
     available_capacity / @capacity
+  end
+
+  def report(placeholder)
+    "#{placeholder}P #{available_capacity} #{capacity}\n"
   end
 end
