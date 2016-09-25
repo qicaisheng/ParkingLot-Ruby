@@ -28,6 +28,14 @@ class  Manager < ParkingBoy
       end
       false
     end
+
+    define_method("pick_by_#{type}") do |token|
+      eval("@#{type}s").each do |child_type|
+        car = child_type.pick(token)
+        return car if car
+      end
+      nil
+    end
   end
 
   private

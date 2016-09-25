@@ -97,10 +97,24 @@ describe Manager do
         expect(picked_car).to eq @car
       end
 
+      it 'should be able to pick the car by managed parking boy' do
+        token = @manager.park_by_parking_boy(@car)
+
+        picked_car = @manager.pick_by_parking_boy(token)
+        expect(picked_car).to eq @car
+      end
+
       it 'should be able to park the car by managed smart parking boy' do
         token = @manager.park_by_smart_parking_boy(@car)
 
         picked_car = @parking_lot3.pick(token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to pick the car by managed smart parking boy' do
+        token = @manager.park_by_smart_parking_boy(@car)
+
+        picked_car = @manager.pick_by_smart_parking_boy(token)
         expect(picked_car).to eq @car
       end
 
@@ -110,6 +124,14 @@ describe Manager do
         picked_car = @parking_lot4.pick(token)
         expect(picked_car).to eq @car
       end
+
+      it 'should be able to pick the car by managed super parking boy' do
+        token = @manager.park_by_super_parking_boy(@car)
+
+        picked_car = @manager.pick_by_super_parking_boy(token)
+        expect(picked_car).to eq @car
+      end
+
     end
   end
 end
