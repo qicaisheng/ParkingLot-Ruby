@@ -21,7 +21,9 @@ describe Manager do
       @super_parking_boy = SuperParkingBoy.new(@parking_lot2, @parking_lot3, @parking_lot4)
       resource = {
         parking_lots: [@parking_lot1],
-        parking_boys: [@parking_boy, @smart_parking_boy, @super_parking_boy]
+        parking_boys: [@parking_boy],
+        smart_parking_boys: [@smart_parking_boy],
+        super_parking_boys: [@super_parking_boy]
       }
       @manager = Manager.new(resource)
       @car = Car.new
@@ -50,6 +52,27 @@ describe Manager do
 
     it 'should be able to park the car with the help of super parking boy' do
       token = @manager.park_by(@super_parking_boy, @car)
+
+      picked_car = @parking_lot4.pick(token)
+      expect(picked_car).to eq @car
+    end
+
+    it 'should be able to park the car by managed parking boy' do
+      token = @manager.park_by_parking_boy(@car)
+
+      picked_car = @parking_lot2.pick(token)
+      expect(picked_car).to eq @car
+    end
+
+    it 'should be able to park the car by managed smart parking boy' do
+      token = @manager.park_by_smart_parking_boy(@car)
+
+      picked_car = @parking_lot3.pick(token)
+      expect(picked_car).to eq @car
+    end
+
+    it 'should be able to park the car by managed super parking boy' do
+      token = @manager.park_by_super_parking_boy(@car)
 
       picked_car = @parking_lot4.pick(token)
       expect(picked_car).to eq @car
