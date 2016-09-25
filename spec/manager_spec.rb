@@ -158,5 +158,43 @@ describe Manager do
         expect(manager.report).to eq "M 5 9\n\tP 2 5\n\tP 3 4\n"
       end
     end
+
+    context 'given manager manage two parking lot and two parking boys manage different parking lot' do
+      parking_lot1_by_manager = ParkingLot.new(5)
+      parking_lot2_by_manager = ParkingLot.new(4)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot2_by_manager.park(Car.new)
+
+      parking_lot_by_parking_boy1 = ParkingLot.new(10)
+      parking_lot_by_parking_boy2 = ParkingLot.new(12)
+      parking_lot_by_parking_boy1.park(Car.new)
+      parking_lot_by_parking_boy1.park(Car.new)
+      parking_lot_by_parking_boy1.park(Car.new)
+      parking_lot_by_parking_boy2.park(Car.new)
+      parking_lot_by_parking_boy2.park(Car.new)
+
+      parking_boy1 = ParkingBoy.new(parking_lot_by_parking_boy1)
+      parking_boy2 = ParkingBoy.new(parking_lot_by_parking_boy2)
+
+      resource = {
+        parking_lots: [parking_lot1_by_manager, parking_lot2_by_manager],
+        parking_boys: [parking_boy1, parking_boy2]
+      }
+      manager = Manager.new(resource)
+
+      it 'should get the availabe space of managed parking lot' do
+        expect(manager.all_available_space).to eq 22
+      end
+
+      it 'should get the all space of managed parking lot' do
+        expect(manager.all_space).to eq 31
+      end
+
+      it 'should be report as follow' do
+        expect(manager.report).to eq "M 22 31\n\tP 2 5\n\tP 3 4\n\tB 7 10\n\t\tP 7 10\n\tB 10 12\n\t\tP 10 12\n"
+      end
+    end
   end
 end
