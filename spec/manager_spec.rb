@@ -29,53 +29,87 @@ describe Manager do
       @car = Car.new
     end
 
-    it 'should be able to park the car to the parking lot himself' do
-      token = @manager.park(@car)
+    context 'by himself' do
+      it 'should be able to park the car to the parking lot' do
+        token = @manager.park(@car)
 
-      picked_car = @parking_lot1.pick(token)
-      expect(picked_car).to eq @car
+        picked_car = @parking_lot1.pick(token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to pick the car parked in the parking lot' do
+        token = @parking_lot1.park(@car)
+
+        picked_car = @manager.pick(token)
+        expect(picked_car).to eq @car
+      end
     end
 
-    it 'should be able to park the car with the help of parking boy' do
-      token = @manager.park_by(@parking_boy, @car)
+    context 'by other parking boy' do
+      it 'should be able to park the car with the help of parking boy' do
+        token = @manager.park_by(@parking_boy, @car)
 
-      picked_car = @parking_lot2.pick(token)
-      expect(picked_car).to eq @car
+        picked_car = @parking_lot2.pick(token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to pick the car with the help of parking boy' do
+        token = @manager.park_by(@parking_boy, @car)
+
+        picked_car = @manager.pick_by(@parking_boy, token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to park the car with the help of smart parking boy' do
+        token = @manager.park_by(@smart_parking_boy, @car)
+
+        picked_car = @parking_lot3.pick(token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to pick the car with the help of smart parking boy' do
+        token = @manager.park_by(@smart_parking_boy, @car)
+
+        picked_car = @manager.pick_by(@smart_parking_boy, token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to park the car with the help of super parking boy' do
+        token = @manager.park_by(@super_parking_boy, @car)
+
+        picked_car = @parking_lot4.pick(token)
+        expect(picked_car).to eq @car
+      end
+
+      it 'should be able to pick the car with the help of super parking boy' do
+        token = @manager.park_by(@super_parking_boy, @car)
+
+        picked_car = @manager.pick_by(@super_parking_boy, token)
+        expect(picked_car).to eq @car
+      end
     end
 
-    it 'should be able to park the car with the help of smart parking boy' do
-      token = @manager.park_by(@smart_parking_boy, @car)
+    context 'by type' do
+      it 'should be able to park the car by managed parking boy' do
+        token = @manager.park_by_parking_boy(@car)
 
-      picked_car = @parking_lot3.pick(token)
-      expect(picked_car).to eq @car
-    end
+        picked_car = @parking_lot2.pick(token)
+        expect(picked_car).to eq @car
+      end
 
-    it 'should be able to park the car with the help of super parking boy' do
-      token = @manager.park_by(@super_parking_boy, @car)
+      it 'should be able to park the car by managed smart parking boy' do
+        token = @manager.park_by_smart_parking_boy(@car)
 
-      picked_car = @parking_lot4.pick(token)
-      expect(picked_car).to eq @car
-    end
+        picked_car = @parking_lot3.pick(token)
+        expect(picked_car).to eq @car
+      end
 
-    it 'should be able to park the car by managed parking boy' do
-      token = @manager.park_by_parking_boy(@car)
+      it 'should be able to park the car by managed super parking boy' do
+        token = @manager.park_by_super_parking_boy(@car)
 
-      picked_car = @parking_lot2.pick(token)
-      expect(picked_car).to eq @car
-    end
-
-    it 'should be able to park the car by managed smart parking boy' do
-      token = @manager.park_by_smart_parking_boy(@car)
-
-      picked_car = @parking_lot3.pick(token)
-      expect(picked_car).to eq @car
-    end
-
-    it 'should be able to park the car by managed super parking boy' do
-      token = @manager.park_by_super_parking_boy(@car)
-
-      picked_car = @parking_lot4.pick(token)
-      expect(picked_car).to eq @car
+        picked_car = @parking_lot4.pick(token)
+        expect(picked_car).to eq @car
+      end
     end
   end
 end
