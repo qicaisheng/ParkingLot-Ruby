@@ -1,6 +1,6 @@
-require 'parking_boy'
+require 'parking_agent'
 
-class  Manager < ParkingBoy
+class  Manager < ParkingAgent
   PARKING_BOY_TYPE = %w(parking_boy smart_parking_boy super_parking_boy)
 
   def initialize(resource)
@@ -40,9 +40,8 @@ class  Manager < ParkingBoy
 
   def report
     self_report = "M #{all_available_space} #{all_space}\n"
-    parking_lots_report = @parking_lots.map{ |parking_lot| parking_lot.report("\t") }.join
     parking_boys_report = @parking_boys.map{ |parking_boy| parking_boy.report("\t") }.join
-    self_report + parking_lots_report + parking_boys_report
+    self_report + parking_lots_report('') + parking_boys_report
   end
 
   def all_space
@@ -58,6 +57,10 @@ class  Manager < ParkingBoy
   end
 
   private
+  def find_parking_lot
+    @parking_lots.find { |parking_lot| parking_lot.canPark }
+  end
+
   def all_parking_boys
     @parking_boys + @smart_parking_boys + @super_parking_boys
   end
