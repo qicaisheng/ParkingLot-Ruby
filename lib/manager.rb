@@ -40,19 +40,19 @@ class  Manager < ParkingAgent
 
   def report
     self_report = "M #{all_available_space} #{all_space}\n"
-    parking_boys_report = @parking_boys.map{ |parking_boy| parking_boy.report("\t") }.join
+    parking_boys_report = all_parking_boys.map{ |parking_boy| parking_boy.report("\t") }.join
     self_report + parking_lots_report('') + parking_boys_report
   end
 
   def all_space
     all_space_of_managed_parking_lots = super
-    all_space_of_managed_parking_boys = @parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_space }
+    all_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_space }
     all_space_of_managed_parking_lots + all_space_of_managed_parking_boys
   end
 
   def all_available_space
     all_available_space_of_managed_parking_lots = super
-    all_available_space_of_managed_parking_boys = @parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_available_space }
+    all_available_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_available_space }
     all_available_space_of_managed_parking_lots + all_available_space_of_managed_parking_boys
   end
 

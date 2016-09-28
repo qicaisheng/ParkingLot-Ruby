@@ -196,5 +196,48 @@ describe Manager do
         expect(manager.report).to eq "M 22 31\n\tP 2 5\n\tP 3 4\n\tB 7 10\n\t\tP 7 10\n\tB 10 12\n\t\tP 10 12\n"
       end
     end
+
+    context 'given manager manage two parking lot and a parking boy, smart parking boy, super parkin boy manage different parking lot' do
+      parking_lot1_by_manager = ParkingLot.new(5)
+      parking_lot2_by_manager = ParkingLot.new(4)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot1_by_manager.park(Car.new)
+      parking_lot2_by_manager.park(Car.new)
+
+      parking_lot_by_parking_boy = ParkingLot.new(10)
+      parking_lot_by_smart_parking_boy = ParkingLot.new(12)
+      parking_lot_by_super_parking_boy = ParkingLot.new(8)
+      parking_lot_by_parking_boy.park(Car.new)
+      parking_lot_by_parking_boy.park(Car.new)
+      parking_lot_by_smart_parking_boy.park(Car.new)
+      parking_lot_by_smart_parking_boy.park(Car.new)
+      parking_lot_by_smart_parking_boy.park(Car.new)
+      parking_lot_by_super_parking_boy.park(Car.new)
+
+      parking_boy = ParkingBoy.new(parking_lot_by_parking_boy)
+      smart_parking_boy = SmartParkingBoy.new(parking_lot_by_smart_parking_boy)
+      super_parking_boy = SuperParkingBoy.new(parking_lot_by_super_parking_boy)
+
+      resource = {
+        parking_lots: [parking_lot1_by_manager, parking_lot2_by_manager],
+        parking_boys: [parking_boy],
+        smart_parking_boys: [smart_parking_boy],
+        super_parking_boys: [super_parking_boy]
+      }
+      manager = Manager.new(resource)
+
+      it 'should get the availabe space of managed parking lot' do
+        expect(manager.all_available_space).to eq 29
+      end
+
+      it 'should get the all space of managed parking lot' do
+        expect(manager.all_space).to eq 39
+      end
+
+      it 'should be report as follow' do
+        expect(manager.report).to eq "M 29 39\n\tP 2 5\n\tP 3 4\n\tB 8 10\n\t\tP 8 10\n\tB 9 12\n\t\tP 9 12\n\tB 7 8\n\t\tP 7 8\n"
+      end
+    end
   end
 end
