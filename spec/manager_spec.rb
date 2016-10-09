@@ -156,6 +156,7 @@ describe Manager do
 
       it 'should be report as follow' do
         expect(manager.report).to eq "M 5 9\n\tP 2 5\n\tP 3 4\n"
+        expect(manager.report_markdown).to eq "#M 5 9\n##P 2 5\n##P 3 4\n"
       end
     end
 
@@ -194,6 +195,7 @@ describe Manager do
 
       it 'should be report as follow' do
         expect(manager.report).to eq "M 22 31\n\tP 2 5\n\tP 3 4\n\tB 7 10\n\t\tP 7 10\n\tB 10 12\n\t\tP 10 12\n"
+        expect(manager.report_markdown).to eq "#M 22 31\n##P 2 5\n##P 3 4\n##B 7 10\n###P 7 10\n##B 10 12\n###P 10 12\n"
       end
     end
 
@@ -237,6 +239,7 @@ describe Manager do
 
       it 'should be report as follow' do
         expect(manager.report).to eq "M 29 39\n\tP 2 5\n\tP 3 4\n\tB 8 10\n\t\tP 8 10\n\tB 9 12\n\t\tP 9 12\n\tB 7 8\n\t\tP 7 8\n"
+        expect(manager.report_markdown).to eq "#M 29 39\n##P 2 5\n##P 3 4\n##B 8 10\n###P 8 10\n##B 9 12\n###P 9 12\n##B 7 8\n###P 7 8\n"
       end
     end
   end

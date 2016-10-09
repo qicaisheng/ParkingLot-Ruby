@@ -25,7 +25,7 @@ class ParkingAgent
   end
 
   def parking_lots_report(placeholder)
-    @parking_lots.map{ |parking_lot| parking_lot.report("#{placeholder}\t") }.join
+    @parking_lots.map{ |parking_lot| parking_lot.report("#{placeholder}") }.join
   end
 
   def self_report(placeholder)
@@ -33,7 +33,11 @@ class ParkingAgent
   end
 
   def report(placeholder)
-    self_report(placeholder) + parking_lots_report(placeholder)
+    self_report(placeholder) + parking_lots_report(placeholder + "\t")
+  end
+
+  def report_markdown(placeholder)
+    self_report(placeholder) + parking_lots_report(placeholder + '#')
   end
 
   private

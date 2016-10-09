@@ -38,17 +38,28 @@ class  Manager
     end
   end
 
-  def parking_lots_report
-    @parking_lots.map{ |parking_lot| parking_lot.report("\t") }.join
+  def parking_lots_report(placeholder)
+    @parking_lots.map{ |parking_lot| parking_lot.report(placeholder) }.join
   end
 
-  def self_report
-    "M #{all_available_space} #{all_space}\n"
+  def parking_boys_report(placeholder)
+    all_parking_boys.map{ |parking_boy| parking_boy.report(placeholder) }.join
+  end
+
+  def parking_boys_report_markdown(placeholder)
+    all_parking_boys.map{ |parking_boy| parking_boy.report_markdown(placeholder) }.join
+  end
+
+  def self_report(placeholder)
+    "#{placeholder}M #{all_available_space} #{all_space}\n"
   end
 
   def report
-    parking_boys_report = all_parking_boys.map{ |parking_boy| parking_boy.report("\t") }.join
-    self_report + parking_lots_report + parking_boys_report
+    self_report('') + parking_lots_report("\t") + parking_boys_report("\t")
+  end
+
+  def report_markdown
+    self_report('#') + parking_lots_report('##') + parking_boys_report_markdown('##')
   end
 
   def all_space
