@@ -28,9 +28,12 @@ class ParkingAgent
     @parking_lots.map{ |parking_lot| parking_lot.report("#{placeholder}\t") }.join
   end
 
+  def self_report(placeholder)
+    "#{placeholder}B #{all_available_space} #{all_space}\n"
+  end
+
   def report(placeholder)
-    self_report = "#{placeholder}B #{all_available_space} #{all_space}\n"
-    self_report + parking_lots_report(placeholder)
+    self_report(placeholder) + parking_lots_report(placeholder)
   end
 
   private

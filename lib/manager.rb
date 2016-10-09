@@ -1,6 +1,6 @@
 require 'parking_agent'
 
-class  Manager < ParkingAgent
+class  Manager
   PARKING_BOY_TYPE = %w(parking_boy smart_parking_boy super_parking_boy)
 
   def initialize(resource)
@@ -38,29 +38,32 @@ class  Manager < ParkingAgent
     end
   end
 
+  def parking_lots_report
+    @parking_lots.map{ |parking_lot| parking_lot.report("\t") }.join
+  end
+
+  def self_report
+    "M #{all_available_space} #{all_space}\n"
+  end
+
   def report
-    self_report = "M #{all_available_space} #{all_space}\n"
     parking_boys_report = all_parking_boys.map{ |parking_boy| parking_boy.report("\t") }.join
-    self_report + parking_lots_report('') + parking_boys_report
+    self_report + parking_lots_report + parking_boys_report
   end
 
   def all_space
-    all_space_of_managed_parking_lots = super
+    all_space_of_managed_parking_lots = @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.capacity }
     all_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_space }
     all_space_of_managed_parking_lots + all_space_of_managed_parking_boys
   end
 
   def all_available_space
-    all_available_space_of_managed_parking_lots = super
+    all_available_space_of_managed_parking_lots = @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.available_capacity }
     all_available_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_available_space }
     all_available_space_of_managed_parking_lots + all_available_space_of_managed_parking_boys
   end
 
   private
-  def find_parking_lot
-    @parking_lots.find { |parking_lot| parking_lot.canPark }
-  end
-
   def all_parking_boys
     @parking_boys + @smart_parking_boys + @super_parking_boys
   end

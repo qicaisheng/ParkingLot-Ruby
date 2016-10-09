@@ -30,7 +30,7 @@ describe Manager do
         @car = Car.new
       end
 
-      context 'by himself' do
+      xcontext 'by himself' do
         it 'should be able to park the car to the parking lot' do
           token = @manager.park(@car)
 
