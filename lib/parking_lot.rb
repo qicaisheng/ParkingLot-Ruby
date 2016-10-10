@@ -1,4 +1,5 @@
 require 'uuid'
+require 'report_helper'
 
 class ParkingLot
   attr_reader :capacity
@@ -33,6 +34,6 @@ class ParkingLot
   end
 
   def report(placeholder)
-    "#{placeholder}P #{available_capacity} #{capacity}\n"
+    ReportHelper.report_parking_lot(self, placeholder)
   end
 end

@@ -1,6 +1,8 @@
-require 'parking_agent'
+require 'report_helper'
 
 class  Manager
+  attr_reader :parking_lots
+
   PARKING_BOY_TYPE = %w(parking_boy smart_parking_boy super_parking_boy)
 
   def initialize(resource)
@@ -38,43 +40,30 @@ class  Manager
     end
   end
 
-  def parking_lots_report(placeholder)
-    @parking_lots.map{ |parking_lot| parking_lot.report(placeholder) }.join
-  end
-
-  def parking_boys_report(placeholder)
-    all_parking_boys.map{ |parking_boy| parking_boy.report(placeholder) }.join
-  end
-
-  def parking_boys_report_markdown(placeholder)
-    all_parking_boys.map{ |parking_boy| parking_boy.report_markdown(placeholder) }.join
-  end
-
-  def self_report(placeholder)
-    "#{placeholder}M #{all_available_space} #{all_space}\n"
-  end
-
   def report
-    self_report('') + parking_lots_report("\t") + parking_boys_report("\t")
+    ReportHelper.report_manager_and_resources(self)
   end
 
   def report_markdown
-    self_report('#') + parking_lots_report('##') + parking_boys_report_markdown('##')
+    ReportHelper.report_manager_and_resources_with_markdown(self)
   end
 
   def all_space
-    all_space_of_managed_parking_lots = @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.capacity }
-    all_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_space }
+    all_space_of_managed_parking_lots = \
+      @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.capacity }
+    all_space_of_managed_parking_boys = \
+      all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_space }
     all_space_of_managed_parking_lots + all_space_of_managed_parking_boys
   end
 
   def all_available_space
-    all_available_space_of_managed_parking_lots = @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.available_capacity }
-    all_available_space_of_managed_parking_boys = all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_available_space }
+    all_available_space_of_managed_parking_lots = \
+      @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.available_capacity }
+    all_available_space_of_managed_parking_boys = \
+      all_parking_boys.inject(0) { |sum, parking_boy| sum + parking_boy.all_available_space }
     all_available_space_of_managed_parking_lots + all_available_space_of_managed_parking_boys
   end
 
-  private
   def all_parking_boys
     @parking_boys + @smart_parking_boys + @super_parking_boys
   end

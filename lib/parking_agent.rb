@@ -1,4 +1,8 @@
+require 'report_helper'
+
 class ParkingAgent
+  attr_reader :parking_lots
+
   def initialize(*parking_lots)
     @parking_lots = parking_lots
   end
@@ -24,20 +28,12 @@ class ParkingAgent
     @parking_lots.inject(0) { |sum, parking_lot| sum + parking_lot.available_capacity }
   end
 
-  def parking_lots_report(placeholder)
-    @parking_lots.map{ |parking_lot| parking_lot.report("#{placeholder}") }.join
-  end
-
-  def self_report(placeholder)
-    "#{placeholder}B #{all_available_space} #{all_space}\n"
-  end
-
   def report(placeholder)
-    self_report(placeholder) + parking_lots_report(placeholder + "\t")
+    ReportHelper.report_parking_boy_and_lots(self, placeholder)
   end
 
   def report_markdown(placeholder)
-    self_report(placeholder) + parking_lots_report(placeholder + '#')
+    ReportHelper.report_parking_boy_and_lots_with_markdown(self, placeholder)
   end
 
   private
